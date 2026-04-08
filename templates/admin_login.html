@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} Страница администратора {% endblock %}
+
+{% block content %}
+{% if not is_admin %}
+<div class="parent-login-container">
+    <div class="login-container">
+        <h2 style="margin-bottom: 20px; text-align: center;">Вход администратора</h2>
+        <p style="text-align: center;">Введите пароль:</p>
+        <form method="POST">
+            <div class="form-group">
+                <input type="password" name="password" id="password" required>
+                <button type="submit" style="margin-left: 20px;">Войти</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

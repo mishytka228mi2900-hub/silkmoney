@@ -1,0 +1,904 @@
+html {
+    scroll-behavior: smooth;
+}
+
+h1 {
+    margin-top: 15px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #fff;
+}
+
+#about,
+#cont {
+    scroll-margin-top: 100px;
+    /* Отступ сверху для якорей */
+}
+
+/* Отступ для якорей */
+:target {
+    scroll-margin-top: 100px;
+}
+
+header,
+.discription-container {
+    display: flex;
+    justify-content: center;
+    /* по горизонтали */
+    align-items: center;
+    /* по вертикали */
+}
+
+.name-text {
+    font-size: 28px;
+    font-family: "Ubuntu", sans-serif;
+
+
+}
+
+.top-content {
+    width: 80%;
+    height: 82;
+    padding-top: 27px;
+    padding-bottom: 27px;
+    border-bottom: 2px solid black;
+}
+
+.header-menu {
+    font-size: 25px;
+    font-family: "Roboto", sans-serif;
+}
+
+
+.menu-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+
+.name-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-right: auto;
+}
+
+.menu-right {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.menu-item {
+    display: inline-block;
+}
+
+.menu-img {
+    background-color: transparent;
+    border: none;
+    margin-left: auto;
+    width: 20px;
+    height: 20px;
+}
+
+.top-a {
+    position: relative;
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s ease-in-out;
+}
+
+.top-a:hover {
+    color: black;
+}
+
+.top-a:hover:before {
+    transform: scaleX(1);
+    transition: transform 0.25s;
+}
+
+.top-a:before {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transform-origin: left;
+    transform: scaleX(0);
+}
+
+.main-text {
+    font-weight: bold;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 65px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.main-img {
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.main-img-container {
+    display: flex;
+    justify-content: center;
+}
+
+.discription {
+    width: 80%;
+    text-align: left;
+    font-size: 22px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.discription-container {
+    margin-bottom: 30px;
+}
+
+.exemples {
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.gallery-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-container h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 28px;
+    color: #333;
+}
+
+.horizontal-gallery {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.horizontal-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    /* прячем полосу, управляем через JS */
+    padding: 10px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* скрываем скроллбар в Firefox */
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+    display: none;
+    /* скрываем в Chrome/Safari */
+}
+
+.horizontal-scroll img {
+    flex: 0 0 auto;
+    width: 280px;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.horizontal-scroll img:hover {
+    transform: scale(1.03);
+}
+
+.scroll-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 100px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s, color 0.2s;
+    z-index: 2;
+}
+
+.scroll-btn:hover {
+    background: #f5f5f5;
+    color: #1e1bbd;
+}
+
+.contact {
+    font-weight: bold;
+    margin-bottom: 5px;
+    width: 100%;
+    text-align: center;
+    font-size: 45px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.discription_2 {
+    width: 70%;
+    text-align: center;
+    font-size: 25px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+/* Маленькие дисплеи */
+
+.gallery-container-small {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-container-small h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 28px;
+    color: #333;
+}
+
+.horizontal-scroll-small {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* плавность на iOS */
+    scrollbar-width: thin;
+    /* для Firefox */
+    scrollbar-color: #ccc transparent;
+    /* цвет полосы прокрутки */
+}
+
+/* Скрываем стандартную полосу прокрутки в Chrome/Safari */
+.horizontal-scroll-small::-webkit-scrollbar {
+    height: 6px;
+}
+
+.horizontal-scroll-small::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.horizontal-scroll-small::-webkit-scrollbar-thumb {
+    background-color: #d4af37;
+    border-radius: 3px;
+}
+
+.horizontal-scroll-small img {
+    flex: 0 0 auto;
+    /* запрещаем сжатие */
+    width: 280px;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.horizontal-scroll-small img:hover {
+    transform: scale(1.03);
+}
+
+
+/* Стили для уведомления */
+.copy-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 28px;
+    background: #000000;
+    color: white;
+    border-radius: 12px;
+    z-index: 9999;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-size: 18px;
+    font-family: "Ubuntu", sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.copy-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.copy-notification.error {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+}
+
+.copy-notification.success::before {
+    font-size: 20px;
+}
+
+.copy-notification.error::before {
+    content: "!";
+    font-size: 20px;
+}
+
+/* Стили для кнопки копирования */
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    border: 2px solid #3498db;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+.copy-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.copy-btn:active {
+    transform: translateY(0);
+}
+
+.copy-btn.copied {
+    background: #28a745;
+    border-color: #28a745;
+}
+
+.copy-btn.copied::after {
+    content: "✓ Скопировано!";
+    margin-left: 8px;
+}
+
+
+
+@media (max-width: 1120px) {
+    .main-text {
+        font-size: 60px;
+    }
+
+    .scroll-btn {
+        width: 120px;
+        height: 55px;
+    }
+}
+
+@media (max-width: 920px) {
+    .top-href {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 980px) {
+    .gallery-container-small {
+        display: none !important;
+    }
+
+    .menu-img {
+        display: none !important;
+    }
+}
+
+
+
+@media(min-width: 980px) {
+    .top-content-mobile {
+        display: none;
+    }
+}
+
+@media (max-width: 980px) {
+    .header-menu {
+        display: none !important;
+    }
+
+    .gallery-container {
+        display: none !important;
+    }
+
+    .main-text {
+        font-size: 40px;
+        margin-top: 48px;
+        margin-bottom: 48px;
+    }
+
+    .exemples {
+        font-size: 35px;
+        margin-bottom: 0px;
+    }
+
+    .discription {
+        font-size: 20px;
+    }
+
+    .contact {
+        font-size: 35px;
+    }
+
+    .discription_2 {
+        font-size: 20px;
+    }
+
+    .scroll-btn {
+        width: 100px;
+        height: 50px;
+    }
+
+    .name-text-mobile {
+        font-size: 25px;
+    }
+
+}
+
+@media (max-width: 570px) {
+    .name-text {
+        font-size: 20px;
+    }
+
+    .contact {
+        font-size: 20px;
+    }
+
+    .discription,
+    .discription_2 {
+        font-size: 15px;
+    }
+
+    .main-text {
+        font-size: 30px;
+    }
+
+    .exemples {
+        font-size: 20px;
+    }
+
+    .main-text {
+        margin-top: 35px;
+        margin-bottom: 15px;
+    }
+}
+
+.content-container {
+    display: flex;
+    justify-content: center;
+    /* по горизонтали */
+}
+
+.content {
+    width: 80%;
+
+}
+
+.form-control {
+    margin-bottom: 1vh;
+}
+
+.parent-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.login-container {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 450px;
+    font-family: "Ubuntu", sans-serif;
+    ;
+}
+
+.checkbox {
+    margin-bottom: 12px;
+}
+
+input[type="checkbox"] {
+    accent-color: #3d3bff;
+    width: 20px;
+}
+
+.checkbox {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+
+.form-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top_content_2 .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-button {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.admin-button:hover {
+    background: #0056b3;
+}
+
+.admin-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-status {
+    background: #198754;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.admin-status:hover {
+    background: #157347;
+    transition: background 0.3s;
+}
+
+.logout-button {
+    background: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.logout-button:hover {
+    background: #c82333;
+}
+
+.post_head {
+    display: flex;
+    align-items: center;
+}
+
+
+/* CSS */
+.footer-simple {
+    color: black;
+    padding: 15px 0;
+    margin-top: 50px;
+    margin-top: auto;
+}
+
+.footer-simple-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-simple-left p {
+    margin: 0;
+    color: black;
+}
+
+.footer-simple-right {
+    display: flex;
+    gap: 25px;
+}
+
+@media (max-width: 800px) {
+
+    .footer-simple-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-simple-right {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .main-img {
+        display: none !important;
+
+    }
+}
+
+@media (min-width: 800px) {
+    .main-img-mobile {
+        display: none;
+    }
+}
+
+.orders_admin_container,
+.post {
+    font-size: 20px;
+    margin-top: 20px;
+    border-radius: 30px;
+    padding: 30px 30px 30px 50px;
+
+    box-shadow: none;
+    transition: 0.3s;
+}
+
+.orders_admin_container:hover {
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.order_num {
+    font-size: 25px;
+}
+
+.order_container {
+    width: 100%;
+    background-color: #fff;
+    color: #0a0a0a;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 30px 0px 0px 30px;
+}
+
+.form_order {
+    width: 100%;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    border: #cfcfcf solid 1px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    background-color: #f5f5f5;
+    ;
+}
+
+.order_button,
+.sent_btn {
+    margin-top: 15px;
+    background-color: #3d3bff;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 100px;
+    padding-right: 100px;
+    transition: all 0.3s;
+}
+
+.order_button:hover {
+    background-color: #1e1bbd;
+    transition: all 0.3s;
+}
+
+.main_order_container {
+    margin-top: 50px;
+    display: flex;
+    background-color: #eff2f5;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-left: 60px;
+    padding-right: 60px;
+    border-radius: 60px;
+}
+
+.contactnie_dannie {
+    background-color: #292929;
+    color: #fff;
+    padding-top: 40px;
+    padding-right: 80px;
+    padding-left: 80px;
+    border-radius: 0px 30px 30px 0px;
+}
+
+.cont_href {
+    color: #fff;
+    font-size: 30px;
+}
+
+.cont_href:hover {
+    color: #fff;
+}
+
+.cont_href:before {
+    background-color: #fff;
+}
+
+.all_questions {
+    margin-left: 50px;
+}
+
+.form_order {
+    background-color: #fff;
+}
+
+.contactnie_dannie_mobile {
+    background-color: #292929;
+    color: #fff;
+    border-radius: 30px 30px 30px 30px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 80px;
+    padding-right: 80px;
+    margin-top: 30px;
+}
+
+
+@media (max-width:1230px) {
+    .main_order_container {
+        display: none !important;
+    }
+
+    .order_container {
+        background-color: #eff2f5;
+        border-radius: 30px;
+    }
+
+}
+
+.top-content-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+
+.name-text-mobile {
+    font-size: 25px;
+    margin: 0;
+}
+
+@media (max-width:880px) {
+    .order_container {
+        background-color: inherit;
+        padding: 0px;
+        width: 100%;
+    }
+}
+
+@media (max-width:420px) {
+    .contactnie_dannie_mobile {
+        padding-top: 10px;
+        padding-bottom: 20px;
+        padding-left: 30px;
+        padding-right: 20px;
+    }
+
+    .form_order {
+        font-size: 12px;
+    }
+
+    .order_button {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        text-align: center;
+    }
+
+    .main-text {
+        margin-top: 15px;
+        font-size: 20px;
+        width: 100%;
+    }
+
+    .exemples {
+        font-size: 18px;
+
+    }
+
+    .top-content {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .gallery-container-small {
+        padding-top: 15px;
+    }
+
+    .main-img-mobile {
+        display: none;
+    }
+
+    .discription-container {
+        margin-bottom: 0px;
+    }
+
+    .text_d {
+        font-size: 10px;
+    }
+
+    .cont_href{
+        font-size: 18px;
+    }
+
+    .cont_href_p{
+        font-size: 14px;
+    }
+
+}
+
+@media (min-width:1230px) {
+    .mobile_main_order_container {
+        display: none;
+    }
+
+
+}
+
+@media (min-width:980px) {
+    .top-content-mobile {
+        display: none;
+    }
+}
+
+
+@media (max-width:420px) {
+    .order_num, .delete-btn, .order-details{
+        font-size: 13px;
+    }
+    .orders_admin_container{
+        padding: 0;
+    }
+    .gallery-container-small{
+        padding: 0;
+    }
+}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    <p class="main-text">Изделия вязанные крючком на заказ<br>Ручная работа</p> 
+
+    <p class="exemples">Примеры работ</p>
+
+    <!-- Большие дисплеи -->
+
+    <div class="gallery-container">
+    <div class="horizontal-gallery">
+        <button class="scroll-btn scroll-left" aria-label="Прокрутить влево">‹</button>
+        <div class="horizontal-scroll" id="galleryScroll">
+        <img src="{{ url_for('static', filename='img/платок 1.png') }}" alt="Платок 1">
+        <img src="{{ url_for('static', filename='img/платок 2.png') }}" alt="Платок 2">
+        <img src="{{ url_for('static', filename='img/платок 3.png') }}" alt="Платок 3">
+        <img src="{{ url_for('static', filename='img/платок 4.png') }}" alt="Платок 4">
+        <img src="{{ url_for('static', filename='img/платок 5.png') }}" alt="Платок 5">
+        <img src="{{ url_for('static', filename='img/платок 6.png') }}" alt="Платок 6">
+        <img src="{{ url_for('static', filename='img/платок 7.png') }}" alt="Платок 7">
+        </div>
+        <button class="scroll-btn scroll-right" aria-label="Прокрутить вправо">›</button>
+    </div>
+    </div>
+    <!-- Маленькие дисплеи -->
+    <div class="gallery-container-small">
+        <div class="horizontal-scroll-small" id="galleryScroll">
+            <img src="{{ url_for('static', filename='img/платок 1.png') }}" alt="Платок 1">
+            <img src="{{ url_for('static', filename='img/платок 2.png') }}" alt="Платок 2">
+            <img src="{{ url_for('static', filename='img/платок 3.png') }}" alt="Платок 3">
+            <img src="{{ url_for('static', filename='img/платок 4.png') }}" alt="Платок 4">
+            <img src="{{ url_for('static', filename='img/платок 5.png') }}" alt="Платок 5">
+            <img src="{{ url_for('static', filename='img/платок 6.png') }}" alt="Платок 6">
+            <img src="{{ url_for('static', filename='img/платок 7.png') }}" alt="Платок 7">
+        </div>
+    </div>
+    <!-------------------------------------------------------------------------->
+    <div class="discription-container", id="about">
+        <div class="discription">
+            <p class="text_d">
+                Все изделия выполнены вручную из натуральных материалов.
+                <br>Я создаю вязаные платки с учётом сценической выразительности и комфорта исполнителя. 
+                <br>Каждый платок — это отдельный проект, выполненный по проверенным техникам и с возможностью индивидуальной настройки под запрос клиента.
+                <br><p style="text-align: center;"><b>Изготовление в Минске. Возможна доставка почтой.</b></p>
+            </p>
+        </div>
+    </div>
+
+    <div class="main-img-container">
+        <img class="main-img" src="{{ url_for('static', filename='img/Group 3.png') }}">
+        <img class="main-img-mobile" src="{{ url_for('static', filename='img/main_img_mobile.png') }}">
+    </div>
+    
+{% endblock %}

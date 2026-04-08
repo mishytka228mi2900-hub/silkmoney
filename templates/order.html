@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Заказ изделия
+{% endblock %}
+
+{% block content %}
+{% if success_message %}
+    <div class="alert alert-success" style="max-width: 600px; margin: 20px auto; padding: 15px; background: #d4edda; border-left: 4px solid #28a745; color: #155724; border-radius: 4px;">
+        {{ success_message }}
+    </div>
+{% endif %}
+
+{% if error_message %}
+    <div class="alert alert-danger" style="max-width: 600px; margin: 20px auto; padding: 15px; background: #f8d7da; border-left: 4px solid #dc3545; color: #721c24; border-radius: 4px;">
+        {{ error_message }}
+    </div>
+{% endif %}
+
+{% if not is_admin %}
+<div class="main_order_container">
+    <div class="order_container">
+        <h1 style="margin-bottom: 25px;">Заказ изделия</h1>
+        <form method="post" style="font-family: Ubuntu, sans-serif;">
+            <input type="text" name="name" placeholder="Имя" class="form_order" required>
+            <input type="tel" name="number" placeholder="Телефон" class="form_order" required>
+            <input type="text" name="order" placeholder="Комментарий" class="form_order">
+            <label class="checkbox">
+                <input type="checkbox" name="privacy" required>
+                Даю согласие на обработку персональных данных
+            </label>
+            <div>
+                <button class="order_button" type="submit">Отправить</button>
+            </div>
+        </form>
+    </div>
+    <div class="contactnie_dannie">
+        <h1>Контакты</h1>
+        <a href="#" class="top-a cont_href copy-link">+375(29)5832964</a>
+        <a href="https://t.me/Silk_and_money" class="top-a cont_href" target="_blank">Telegram</a>
+        <br>
+        <a href="#" class="top-a cont_href">Viber</a>
+        <br>
+        <a href="#" class="top-a cont_href">WhatsApp</a>
+        <br>
+        <p class="cont_href">Рабочее время: <br>9:00 - 18:00</p>
+        <p>После отправки заказа мы свяжемся с Вами в кратчайшее время.</p>
+    </div>
+</div>
+
+<!-- mobile -->
+<div class="mobile_main_order_container">
+    <div class="order_container">
+        <h1 style="margin-bottom: 25px;">Заказ изделия</h1>
+        <form method="post" style="font-family: Ubuntu, sans-serif;">
+            <input type="text" name="name" placeholder="Имя" class="form_order" required>
+            <input type="tel" name="number" placeholder="Телефон" class="form_order" required>
+            <input type="text" name="order" placeholder="Комментарий" class="form_order">
+            <label class="checkbox">
+                <input type="checkbox" name="privacy" required>
+                Даю согласие на обработку персональных данных
+            </label>
+            <div>
+                <button class="order_button" type="submit">Заказать</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="contactnie_dannie_mobile">
+        <h1>Контакты:</h1>
+        <a href="#" class="top-a cont_href copy-link">+375(29)5832964</a>
+        <br>
+        <a href="https://t.me/Silk_and_money" class="top-a cont_href" target="_blank">Telegram</a>
+        <br>
+        <a href="#" class="top-a cont_href">Viber</a>
+        <br>
+        <a href="#" class="top-a cont_href">WhatsApp</a>
+        <br>
+        <p class="cont_href">Рабочее время: <br>9:00 - 18:00</p>
+        <p class="cont_href_p">После отправки заказа мы свяжемся с Вами в кратчайшее время.</p>
+    </div>
+</div>
+{% endif %}
+
+{% if is_admin %}
+    {% if orders|length > 0 %}
+        {% for order in orders %}
+        <div class="orders_admin_container">
+            <div class="order-header">
+                <span class="order-number">
+                    <p class="order_num"><b>Номер заказа: </b>{{ order.id }}</p>
+                </span>
+                <a href="{{ url_for('order_delete', id=order.id) }}" class="top-a delete-btn"
+                   onclick="return confirm('Вы уверены, что хотите удалить заказ #{{ order.id }}?');">
+                    <b>Удалить заказ</b>
+                </a>
+            </div>
+
+            <div class="order-details">
+                <p><b>Заказ:</b> {{ order.order }}</p>
+                <p><b>Дата заказа:</b> {{ order.date|minsk_time }}</p>
+                <p><b>Имя заказчика:</b> {{ order.name }}</p>
+                <p><b>Номер телефона заказчика:</b> {{ order.number }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; padding: 40px; color: #888;">
+            😕 Пока нет заказов
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}
