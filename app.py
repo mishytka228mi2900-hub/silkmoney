@@ -6,6 +6,18 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
+import sys
+import traceback
+
+# Добавьте этот обработчик перед запуском приложения
+@app.before_first_request
+def setup_error_handlers():
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        app.logger.error(f"Unhandled exception: {str(e)}")
+        app.logger.error("".join(traceback.format_tb(exc_traceback)))
+        return "Internal Server Error", 500
 
 # Настройка логирования
 def setup_logging(app):
