@@ -9,32 +9,6 @@ from logging.handlers import RotatingFileHandler
 import sys
 import traceback
 
-# Добавьте этот обработчик перед запуском приложения
-@app.before_first_request
-def setup_error_handlers():
-    @app.errorhandler(Exception)
-    def handle_exception(e):
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        app.logger.error(f"Unhandled exception: {str(e)}")
-        app.logger.error("".join(traceback.format_tb(exc_traceback)))
-        return "Internal Server Error", 500
-
-# Настройка логирования
-def setup_logging(app):
-    if not app.debug:
-        if not os.path.exists('logs'):
-            os.mkdir('logs')
-        
-        file_handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=10)
-        file_handler.setFormatter(logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
-        ))
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
-        
-        app.logger.setLevel(logging.INFO)
-        app.logger.info('Приложение запущено')
-
 
 # Создание приложения
 app = Flask(__name__)
@@ -54,6 +28,32 @@ db = SQLAlchemy(app)
 
 # Настройка логирования
 setup_logging(app)
+
+
+# ПОСЛЕ определения app = Flask(__name__)
+with app.app_context():
+    try:
+        db.create_all()
+        app.logger.info('Таблицы базы данных созданы')
+    except Exception as e:
+        app.logger.error(f'Ошибка при создании таблиц: {e}')
+
+
+# Настройка логирования
+def setup_logging(app):
+    if not app.debug:
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        
+        file_handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+        ))
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+        
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('Приложение запущено')
 
 
 # Фильтр для преобразования времени в минский часовой пояс
