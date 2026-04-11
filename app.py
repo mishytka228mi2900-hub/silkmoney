@@ -220,15 +220,6 @@ def health():
         return {'status': 'error', 'database': 'disconnected'}, 503
 
 
-# Создание таблиц при первом запуске (только в режиме разработки)
-@app.before_first_request
-def create_tables():
-    try:
-        db.create_all()
-        app.logger.info('Таблицы базы данных созданы')
-    except Exception as e:
-        app.logger.error(f'Ошибка при создании таблиц: {e}')
-
 
 if __name__ == '__main__':
     # Только для локальной разработки
