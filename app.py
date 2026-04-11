@@ -1,3 +1,4 @@
+# 1. Импорты
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -6,44 +7,15 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
-import sys
-import traceback
-
-
-# Создание приложения
-app = Flask(__name__)
-
-# Загрузка конфигурации из переменных окружения (безопасно для продакшена)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-in-production')
-app.config['ADMIN_PASSWORD'] = os.environ.get('ADMIN_PASSWORD', 'admin123-change-in-production')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Настройка базы данных (поддержка Render/PostgreSQL)
-database_url = os.environ.get('DATABASE_URL')
-if database_url and database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url or 'sqlite:///app.db'
-
-db = SQLAlchemy(app)
-
-# Настройка логирования
-setup_logging(app)
-
-
-# ПОСЛЕ определения app = Flask(__name__)
-with app.app_context():
-    try:
-        db.create_all()
-        app.logger.info('Таблицы базы данных созданы')
-    except Exception as e:
-        app.logger.error(f'Ошибка при создании таблиц: {e}')
-
-
-# Настройка логирования
+# 2. ОПРЕДЕЛЕНИЕ функции setup_logging
 def setup_logging(app):
     if not app.debug:
-        if not os.path.exists('logs'):
-            os.mkdir('logs')
+        try:
+            if not os.path.exists('logs'):
+                os.mkdir('logs')
+        except Exception as e:
+            app.logger.warning(f'Не удалось создать папку логов: {e}')
+            return
         
         file_handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=10)
         file_handler.setFormatter(logging.Formatter(
@@ -54,6 +26,26 @@ def setup_logging(app):
         
         app.logger.setLevel(logging.INFO)
         app.logger.info('Приложение запущено')
+
+# 3. Создание приложения
+app = Flask(__name__)
+
+# Загрузка конфигурации
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-in-production')
+app.config['ADMIN_PASSWORD'] = os.environ.get('ADMIN_PASSWORD', 'admin123-change-in-production')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Настройка базы данных
+database_url = os.environ.get('DATABASE_URL')
+if database_url and database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url or 'sqlite:///app.db'
+
+# 4. ВЫЗОВ функции setup_logging (теперь она уже определена!)
+setup_logging(app)  # ← Эта строка должна быть ПОСЛЕ определения функции
+
+# 5. Инициализация базы данных
+db = SQLAlchemy(app)
 
 
 # Фильтр для преобразования времени в минский часовой пояс
