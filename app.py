@@ -47,6 +47,14 @@ setup_logging(app)  # ← Эта строка должна быть ПОСЛЕ �
 # 5. Инициализация базы данных
 db = SQLAlchemy(app)
 
+# Инициализация базы данных и создание таблиц
+with app.app_context():
+    try:
+        db.create_all()
+        app.logger.info('Таблицы базы данных созданы')
+    except Exception as e:
+        app.logger.error(f'Ошибка при создании таблиц: {e}')
+
 
 # Фильтр для преобразования времени в минский часовой пояс
 @app.template_filter('minsk_time')
