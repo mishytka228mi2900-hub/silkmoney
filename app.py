@@ -81,6 +81,8 @@ def minsk_time_filter(value, format='%d.%m.%Y %H:%M'):
 
 # 5. Модель заказа
 class Order(db.Model):
+    __tablename__ = 'orders'  # ← КРИТИЧЕСКИ ВАЖНО! Не используйте "order" как имя таблицы
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(300), nullable=False)
     number = db.Column(db.String(20), nullable=False)
@@ -221,3 +223,4 @@ def health():
 # 12. Запуск (только для локальной разработки)
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+
