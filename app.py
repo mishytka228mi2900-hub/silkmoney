@@ -8,7 +8,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 from sqlalchemy import text
 
-```python
 # 1. Импорты
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
