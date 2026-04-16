@@ -107,34 +107,37 @@ def index():
     return render_template('index.html')
 
 
-# Страница заказа (исправлено: обрабатывает и GET, и POST)
-@app.route("/order/", methods=['GET', 'POST'])  # ← Добавлен слеш в конце!
-@app.route("/order", methods=['GET', 'POST'])   # ← И без слеша тоже
-def order():
+# НОВЫЙ КОД: Обработка заказа и админки в корневом маршруте
+@app.route("/", methods=['GET', 'POST'])
+def index():
     is_admin = session.get('is_admin', False)
     
+    # Обработка POST-запроса (форма заказа)
     if request.method == 'POST':
+        # Проверка согласия на обработку данных
         if 'privacy' not in request.form:
             flash('Вы должны согласиться с обработкой персональных данных', 'danger')
-            return redirect(url_for('order'))
+            return redirect(url_for('index'))
         
         try:
             name = request.form['name'].strip()
             number = request.form['number'].strip()
             order_text = request.form['order'].strip()
             
+            # Валидация данных
             if not name or len(name) < 2:
                 flash('Имя должно содержать минимум 2 символа', 'danger')
-                return redirect(url_for('order'))
+                return redirect(url_for('index'))
             
             if not number or len(number) < 10:
                 flash('Неверный формат номера телефона', 'danger')
-                return redirect(url_for('order'))
+                return redirect(url_for('index'))
             
             if not order_text:
                 flash('Поле заказа не может быть пустым', 'danger')
-                return redirect(url_for('order'))
+                return redirect(url_for('index'))
             
+            # Создание заказа
             new_order = Order(name=name, number=number, order=order_text)
             
             db.session.add(new_order)
@@ -143,19 +146,21 @@ def order():
             flash('✅ Заказ оформлен успешно! Мы свяжемся с вами в ближайшее время.', 'success')
             app.logger.info(f'Новый заказ #{new_order.id} от {name}')
             
-            return redirect(url_for('order'))
+            return redirect(url_for('index'))
             
-        except Exception as e:            db.session.rollback()
+        except Exception as e:
+            db.session.rollback()
             app.logger.error(f'Ошибка при создании заказа: {e}')
             flash('❌ Ошибка при добавлении заказа. Попробуйте позже.', 'danger')
-            return redirect(url_for('order'))
+            return redirect(url_for('index'))
     
+    # Обработка GET-запроса (отображение главной страницы)
     else:
         if is_admin:
             orders = Order.query.order_by(Order.date.desc()).all()
-            return render_template("order.html", orders=orders, is_admin=is_admin)
+            return render_template("index.html", orders=orders, is_admin=is_admin)
         else:
-            return render_template("order.html", is_admin=is_admin)
+            return render_template("index.html", is_admin=is_admin)
 
 
 # Удаление заказа
