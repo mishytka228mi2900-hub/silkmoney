@@ -6,7 +6,7 @@ from pytz import timezone, utc
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from sqlalchemy import textВаш код в целом хороший, но содержит **критические ошибки**, мешающие работе на Render. Вот исправленная версия:
+from sqlalchemy import text
 
 ```python
 # 1. Импорты
