@@ -62,15 +62,18 @@
         {% endif %}
     {% endwith %}
 
-
+    <!-- Flash-сообщения -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="flash-messages">
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-          {% endfor %}
+    {% if messages %}
+        <div class="flash-messages" style="max-width: 600px; margin: 20px auto;">
+        {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" 
+                
+            {{ message }}
+            </div>
+        {% endfor %}
         </div>
-      {% endif %}
+    {% endif %}
     {% endwith %}
 
     <!-- Форма заказа -->
@@ -150,7 +153,7 @@
                         <span class="order-number">
                             <p class="order_num"><b>Номер заказа: </b>{{ order.id }}</p>
                         </span>
-                        <a href="{{ url_for('order_delete', id=order.id) }}" class="top-a delete-btn"
+                        <a href="{{ url_for(id=order.id) }}" class="top-a delete-btn"
                            onclick="return confirm('Вы уверены, что хотите удалить заказ #{{ order.id }}?');">
                             <b>Удалить заказ</b>
                         </a>
