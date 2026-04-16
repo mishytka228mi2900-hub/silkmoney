@@ -1,43 +1,46 @@
 {% extends 'base.html' %}
 
-{% block title %}Главная{% endblock %}
+{% block title %}Изделия вязанные крючком на заказ{% endblock %}
 
 {% block content %}
-    <p class="main-text">Изделия вязанные крючком на заказ<br>Ручная работа</p> 
+    <!-- Галерея работ -->
+    <div class="gallery-section">
+        <p class="main-text">Изделия вязанные крючком на заказ<br>Ручная работа</p> 
+        <p class="exemples">Примеры работ</p>
 
-    <p class="exemples">Примеры работ</p>
-
-    <!-- Большие дисплеи -->
-
-    <div class="gallery-container">
-    <div class="horizontal-gallery">
-        <button class="scroll-btn scroll-left" aria-label="Прокрутить влево">‹</button>
-        <div class="horizontal-scroll" id="galleryScroll">
-        <img src="{{ url_for('static', filename='img/платок 1.png') }}" alt="Платок 1">
-        <img src="{{ url_for('static', filename='img/платок 2.png') }}" alt="Платок 2">
-        <img src="{{ url_for('static', filename='img/платок 3.png') }}" alt="Платок 3">
-        <img src="{{ url_for('static', filename='img/платок 4.png') }}" alt="Платок 4">
-        <img src="{{ url_for('static', filename='img/платок 5.png') }}" alt="Платок 5">
-        <img src="{{ url_for('static', filename='img/платок 6.png') }}" alt="Платок 6">
-        <img src="{{ url_for('static', filename='img/платок 7.png') }}" alt="Платок 7">
+        <!-- Большие дисплеи -->
+        <div class="gallery-container">
+            <div class="horizontal-gallery">
+                <button class="scroll-btn scroll-left" aria-label="Прокрутить влево">‹</button>
+                <div class="horizontal-scroll" id="galleryScroll">
+                    <img src="{{ url_for('static', filename='img/платок 1.png') }}" alt="Платок 1">
+                    <img src="{{ url_for('static', filename='img/платок 2.png') }}" alt="Платок 2">
+                    <img src="{{ url_for('static', filename='img/платок 3.png') }}" alt="Платок 3">
+                    <img src="{{ url_for('static', filename='img/платок 4.png') }}" alt="Платок 4">
+                    <img src="{{ url_for('static', filename='img/платок 5.png') }}" alt="Платок 5">
+                    <img src="{{ url_for('static', filename='img/платок 6.png') }}" alt="Платок 6">
+                    <img src="{{ url_for('static', filename='img/платок 7.png') }}" alt="Платок 7">
+                </div>
+                <button class="scroll-btn scroll-right" aria-label="Прокрутить вправо">›</button>
+            </div>
         </div>
-        <button class="scroll-btn scroll-right" aria-label="Прокрутить вправо">›</button>
-    </div>
-    </div>
-    <!-- Маленькие дисплеи -->
-    <div class="gallery-container-small">
-        <div class="horizontal-scroll-small" id="galleryScroll">
-            <img src="{{ url_for('static', filename='img/платок 1.png') }}" alt="Платок 1">
-            <img src="{{ url_for('static', filename='img/платок 2.png') }}" alt="Платок 2">
-            <img src="{{ url_for('static', filename='img/платок 3.png') }}" alt="Платок 3">
-            <img src="{{ url_for('static', filename='img/платок 4.png') }}" alt="Платок 4">
-            <img src="{{ url_for('static', filename='img/платок 5.png') }}" alt="Платок 5">
-            <img src="{{ url_for('static', filename='img/платок 6.png') }}" alt="Платок 6">
-            <img src="{{ url_for('static', filename='img/платок 7.png') }}" alt="Платок 7">
+        
+        <!-- Маленькие дисплеи -->
+        <div class="gallery-container-small">
+            <div class="horizontal-scroll-small" id="galleryScroll">
+                <img src="{{ url_for('static', filename='img/платок 1.png') }}" alt="Платок 1">
+                <img src="{{ url_for('static', filename='img/платок 2.png') }}" alt="Платок 2">
+                <img src="{{ url_for('static', filename='img/платок 3.png') }}" alt="Платок 3">
+                <img src="{{ url_for('static', filename='img/платок 4.png') }}" alt="Платок 4">
+                <img src="{{ url_for('static', filename='img/platok 5.png') }}" alt="Платок 5">
+                <img src="{{ url_for('static', filename='img/платок 6.png') }}" alt="Платок 6">
+                <img src="{{ url_for('static', filename='img/платок 7.png') }}" alt="Платок 7">
+            </div>
         </div>
     </div>
-    <!-------------------------------------------------------------------------->
-    <div class="discription-container", id="about">
+
+    <!-- Описание -->
+    <div class="discription-container" id="about">
         <div class="discription">
             <p class="text_d">
                 Все изделия выполнены вручную из натуральных материалов.
@@ -48,125 +51,113 @@
         </div>
     </div>
 
+    <!-- Уведомления -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-messages">
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-
-{% block title %}
-Заказ изделия
-{% endblock %}
-
-{% block content %}
-{% if success_message %}
-    <div class="alert alert-success" style="max-width: 600px; margin: 20px auto; padding: 15px; background: #d4edda; border-left: 4px solid #28a745; color: #155724; border-radius: 4px;">
-        {{ success_message }}
-    </div>
-{% endif %}
-
-{% if error_message %}
-    <div class="alert alert-danger" style="max-width: 600px; margin: 20px auto; padding: 15px; background: #f8d7da; border-left: 4px solid #dc3545; color: #721c24; border-radius: 4px;">
-        {{ error_message }}
-    </div>
-{% endif %}
-
-{% if not is_admin %}
-<div class="main_order_container">
-    <div class="order_container">
-        <h1 style="margin-bottom: 25px;">Заказ изделия</h1>
-        <form method="post" style="font-family: Ubuntu, sans-serif;">
-            <input type="text" name="name" placeholder="Имя" class="form_order" required>
-            <input type="tel" name="number" placeholder="Телефон" class="form_order" required>
-            <input type="text" name="order" placeholder="Комментарий" class="form_order">
-            <label class="checkbox">
-                <input type="checkbox" name="privacy" required>
-                Даю согласие на обработку персональных данных
-            </label>
-            <div>
-                <button class="order_button" type="submit">Отправить</button>
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
             </div>
-        </form>
-    </div>
-    <div class="contactnie_dannie">
-        <h1>Контакты</h1>
-        <a href="#" class="top-a cont_href copy-link">+375(29)5832964</a>
-        <a href="https://t.me/Silk_and_money" class="top-a cont_href" target="_blank">Telegram</a>
-        <br>
-        <a href="#" class="top-a cont_href">Viber</a>
-        <br>
-        <a href="#" class="top-a cont_href">WhatsApp</a>
-        <br>
-        <p class="cont_href">Рабочее время: <br>9:00 - 18:00</p>
-        <p>После отправки заказа мы свяжемся с Вами в кратчайшее время.</p>
-    </div>
-</div>
+        {% endif %}
+    {% endwith %}
 
-<!-- mobile -->
-<div class="mobile_main_order_container">
-    <div class="order_container">
-        <h1 style="margin-bottom: 25px;">Заказ изделия</h1>
-        <form method="post" style="font-family: Ubuntu, sans-serif;">
-            <input type="text" name="name" placeholder="Имя" class="form_order" required>
-            <input type="tel" name="number" placeholder="Телефон" class="form_order" required>
-            <input type="text" name="order" placeholder="Комментарий" class="form_order">
-            <label class="checkbox">
-                <input type="checkbox" name="privacy" required>
-                Даю согласие на обработку персональных данных
-            </label>
-            <div>
-                <button class="order_button" type="submit">Заказать</button>
+    <!-- Форма заказа -->
+    <div class="order-section">
+        <div class="main_order_container">
+            <div class="order_container">
+                <h1 style="margin-bottom: 25px;">Заказ изделия</h1>
+                <form method="post" style="font-family: Ubuntu, sans-serif;">
+                    <input type="text" name="name" placeholder="Имя" class="form_order" required>
+                    <input type="tel" name="number" placeholder="Телефон" class="form_order" required>
+                    <input type="text" name="order" placeholder="Комментарий" class="form_order">
+                    <label class="checkbox">
+                        <input type="checkbox" name="privacy" required>
+                        Даю согласие на обработку персональных данных
+                    </label>
+                    <div>
+                        <button class="order_button" type="submit">Отправить</button>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-
-    <div class="contactnie_dannie_mobile">
-        <h1>Контакты:</h1>
-        <a href="#" class="top-a cont_href copy-link">+375(29)5832964</a>
-        <br>
-        <a href="https://t.me/Silk_and_money" class="top-a cont_href" target="_blank">Telegram</a>
-        <br>
-        <a href="#" class="top-a cont_href">Viber</a>
-        <br>
-        <a href="#" class="top-a cont_href">WhatsApp</a>
-        <br>
-        <p class="cont_href">Рабочее время: <br>9:00 - 18:00</p>
-        <p class="cont_href_p">После отправки заказа мы свяжемся с Вами в кратчайшее время.</p>
-    </div>
-</div>
-{% endif %}
-
-{% if is_admin %}
-    {% if orders|length > 0 %}
-        {% for order in orders %}
-        <div class="orders_admin_container">
-            <div class="order-header">
-                <span class="order-number">
-                    <p class="order_num"><b>Номер заказа: </b>{{ order.id }}</p>
-                </span>
-                <a href="{{ url_for('order_delete', id=order.id) }}" class="top-a delete-btn"
-                   onclick="return confirm('Вы уверены, что хотите удалить заказ #{{ order.id }}?');">
-                    <b>Удалить заказ</b>
-                </a>
-            </div>
-
-            <div class="order-details">
-                <p><b>Заказ:</b> {{ order.order }}</p>
-                <p><b>Дата заказа:</b> {{ order.date|minsk_time }}</p>
-                <p><b>Имя заказчика:</b> {{ order.name }}</p>
-                <p><b>Номер телефона заказчика:</b> {{ order.number }}</p>
+            
+            <div class="contactnie_dannie">
+                <h1>Контакты</h1>
+                <a href="#" class="top-a cont_href copy-link">+375(29)5832964</a>
+                <a href="https://t.me/Silk_and_money" class="top-a cont_href" target="_blank">Telegram</a>
+                <br>
+                <a href="#" class="top-a cont_href">Viber</a>
+                <br>
+                <a href="#" class="top-a cont_href">WhatsApp</a>
+                <br>
+                <p class="cont_href">Рабочее время: <br>9:00 - 18:00</p>
+                <p>После отправки заказа мы свяжемся с Вами в кратчайшее время.</p>
             </div>
         </div>
-        {% endfor %}
-    {% else %}
-        <div style="text-align: center; padding: 40px; color: #888;">
-            😕 Пока нет заказов
+
+        <!-- Мобильная версия формы заказа -->
+        <div class="mobile_main_order_container">
+            <div class="order_container">
+                <h1 style="margin-bottom: 25px;">Заказ изделия</h1>
+                <form method="post" style="font-family: Ubuntu, sans-serif;">
+                    <input type="text" name="name" placeholder="Имя" class="form_order" required>
+                    <input type="tel" name="number" placeholder="Телефон" class="form_order" required>
+                    <input type="text" name="order" placeholder="Комментарий" class="form_order">
+                    <label class="checkbox">
+                        <input type="checkbox" name="privacy" required>
+                        Даю согласие на обработку персональных данных
+                    </label>
+                    <div>
+                        <button class="order_button" type="submit">Заказать</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="contactnie_dannie_mobile">
+                <h1>Контакты:</h1>
+                <a href="#" class="top-a cont_href copy-link">+375(29)5832964</a>
+                <br>
+                <a href="https://t.me/Silk_and_money" class="top-a cont_href" target="_blank">Telegram</a>
+                <br>
+                <a href="#" class="top-a cont_href">Viber</a>
+                <br>
+                <a href="#" class="top-a cont_href">WhatsApp</a>
+                <br>
+                <p class="cont_href">Рабочее время: <br>9:00 - 18:00</p>
+                <p class="cont_href_p">После отправки заказа мы свяжемся с Вами в кратчайшее время.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Админка -->
+    {% if is_admin %}
+        <div class="admin-section">
+            {% if orders|length > 0 %}
+                {% for order in orders %}
+                <div class="orders_admin_container">
+                    <div class="order-header">
+                        <span class="order-number">
+                            <p class="order_num"><b>Номер заказа: </b>{{ order.id }}</p>
+                        </span>
+                        <a href="{{ url_for('order_delete', id=order.id) }}" class="top-a delete-btn"
+                           onclick="return confirm('Вы уверены, что хотите удалить заказ #{{ order.id }}?');">
+                            <b>Удалить заказ</b>
+                        </a>
+                    </div>
+
+                    <div class="order-details">
+                        <p><b>Заказ:</b> {{ order.order }}</p>
+                        <p><b>Дата заказа:</b> {{ order.date|minsk_time }}</p>
+                        <p><b>Имя заказчика:</b> {{ order.name }}</p>
+                        <p><b>Номер телефона заказчика:</b> {{ order.number }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #888;">
+                    😕 Пока нет заказов
+                </div>
+            {% endif %}
         </div>
     {% endif %}
-{% endif %}
-    
 {% endblock %}
