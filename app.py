@@ -63,6 +63,15 @@ with app.app_context():
         app.logger.error(f'Ошибка при создании таблиц: {e}')
 
 
+@app.route("/init-db")
+def init_db():
+    with app.app_context():
+        db.drop_all()  # ⚠️ Удаляет ВСЕ данные!
+        db.create_all()
+        app.logger.info("Таблицы пересозданы")
+    return "✅ Таблицы созданы! Удалите этот маршрут после проверки."
+
+
 # 4. Фильтр для времени
 @app.template_filter('minsk_time')
 def minsk_time_filter(value, format='%d.%m.%Y %H:%M'):
