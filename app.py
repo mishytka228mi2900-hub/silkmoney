@@ -56,6 +56,14 @@ with app.app_context():
         app.logger.error(f'Ошибка при создании таблиц: {e}')
 
 
+@app.before_request
+def before_request():
+    if 'is_admin' in session:
+        # Убедитесь, что сессия сохраняется
+        session.permanent = True
+        app.logger.info("Сессия администратора активна")
+
+
 # Фильтр для преобразования времени в минский часовой пояс
 @app.template_filter('minsk_time')
 def minsk_time_filter(value, format='%d.%m.%Y %H:%M'):
