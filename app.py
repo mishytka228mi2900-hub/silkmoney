@@ -198,7 +198,8 @@ def admin_login():
             app.logger.info('Администратор вошел в систему')
             flash('Добро пожаловать, администратор!', 'success')
             return redirect(url_for('order'))
-        else:            app.logger.warning(f'Неудачная попытка входа администратора с паролем: {password[:3]}***')
+        else:            
+            app.logger.warning(f'Неудачная попытка входа администратора с паролем: {password[:3]}***')
             flash('Неверный пароль!', 'danger')
             return redirect(url_for('admin_login'))
     
