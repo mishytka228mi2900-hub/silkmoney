@@ -8,7 +8,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 from sqlalchemy import text
 
-
 # 2. Настройка логирования
 def setup_logging(app):
     if not app.debug:
@@ -25,14 +24,14 @@ def setup_logging(app):
         ))
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
+        
         app.logger.setLevel(logging.INFO)
         app.logger.info('Приложение запущено')
-
 
 # 3. Создание приложения
 app = Flask(__name__)
 
-# Настройки сессий (для Chrome и безопасности)
+# Настройки сессий для работы в Chrome и других браузерах
 app.config['SESSION_COOKIE_SECURE'] = False
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -62,16 +61,6 @@ with app.app_context():
     except Exception as e:
         app.logger.error(f'Ошибка при создании таблиц: {e}')
 
-
-@app.route("/init-db")
-def init_db():
-    with app.app_context():
-        db.drop_all()  # ⚠️ Удаляет ВСЕ данные!
-        db.create_all()
-        app.logger.info("Таблицы пересозданы")
-    return "✅ Таблицы созданы! Удалите этот маршрут после проверки."
-
-
 # 4. Фильтр для времени
 @app.template_filter('minsk_time')
 def minsk_time_filter(value, format='%d.%m.%Y %H:%M'):
@@ -87,10 +76,9 @@ def minsk_time_filter(value, format='%d.%m.%Y %H:%M'):
         app.logger.error(f'Ошибка при форматировании времени: {e}')
         return value.strftime(format) if hasattr(value, 'strftime') else str(value)
 
-
 # 5. Модель заказа
 class Order(db.Model):
-    __tablename__ = 'orders'  # ← КРИТИЧЕСКИ ВАЖНО! Не используйте "order" как имя таблицы
+    __tablename__ = 'orders'  # Важно: не использовать 'order' как имя таблицы
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(300), nullable=False)
@@ -101,7 +89,6 @@ class Order(db.Model):
     def __repr__(self):
         return f'<Order {self.id}: {self.name}>'
 
-
 # 6. Главная страница + обработка заказа
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -109,6 +96,7 @@ def index():
     
     # Обработка формы заказа
     if request.method == 'POST':
+        # Проверка согласия на обработку данных
         if 'privacy' not in request.form:
             flash('Вы должны согласиться с обработкой персональных данных', 'danger')
             return redirect(url_for('index'))
@@ -118,16 +106,20 @@ def index():
             number = request.form['number'].strip()
             order_text = request.form['order'].strip()
             
+            # Валидация данных
             if not name or len(name) < 2:
                 flash('Имя должно содержать минимум 2 символа', 'danger')
                 return redirect(url_for('index'))
+            
             if not number or len(number) < 10:
                 flash('Неверный формат номера телефона', 'danger')
                 return redirect(url_for('index'))
+            
             if not order_text:
                 flash('Поле заказа не может быть пустым', 'danger')
                 return redirect(url_for('index'))
             
+            # Создание заказа
             new_order = Order(name=name, number=number, order=order_text)
             db.session.add(new_order)
             db.session.commit()
@@ -149,7 +141,6 @@ def index():
             return render_template("index.html", orders=orders, is_admin=is_admin)
         else:
             return render_template("index.html", is_admin=is_admin)
-
 
 # 7. Удаление заказа
 @app.route("/order/<int:id>/delete")
@@ -173,7 +164,6 @@ def order_delete(id):
         flash('Ошибка при удалении заказа', 'danger')
         return redirect(url_for('index')), 500
 
-
 # 8. Вход/выход администратора
 @app.route("/admin-login", methods=['GET', 'POST'])
 def admin_login():
@@ -191,7 +181,6 @@ def admin_login():
             return redirect(url_for('admin_login'))
     return render_template("admin_login.html")
 
-
 @app.route("/admin-logout")
 def admin_logout():
     session.pop('is_admin', None)
@@ -199,12 +188,10 @@ def admin_logout():
     flash('Вы вышли из системы', 'info')
     return redirect(url_for('index'))
 
-
 # 9. Другие страницы
 @app.route("/politica_konfidencialnosti")
 def politica_konfidencialnosti():
     return render_template("politica.html")
-
 
 # 10. Обработка ошибок
 @app.errorhandler(404)
@@ -217,7 +204,6 @@ def internal_server_error(e):
     app.logger.error(f'Внутренняя ошибка сервера: {e}')
     return render_template('500.html'), 500
 
-
 # 11. Health check
 @app.route("/health")
 def health():
@@ -228,8 +214,6 @@ def health():
         app.logger.error(f'Health check failed: {e}')
         return {'status': 'error', 'database': 'disconnected'}, 503
 
-
 # 12. Запуск (только для локальной разработки)
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
-
