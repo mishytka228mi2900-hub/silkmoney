@@ -98,7 +98,7 @@ def index():
     if request.method == 'POST':
         # Проверка согласия на обработку данных
         if 'privacy' not in request.form:
-            flash('Вы должны согласиться с обработкой персональных данных', 'danger')
+            #flash('Вы должны согласиться с обработкой персональных данных', 'danger')
             return redirect(url_for('index'))
         
         try:
@@ -108,15 +108,15 @@ def index():
             
             # Валидация данных
             if not name or len(name) < 2:
-                flash('Имя должно содержать минимум 2 символа', 'danger')
+                #flash('Имя должно содержать минимум 2 символа', 'danger')
                 return redirect(url_for('index'))
             
             if not number or len(number) < 10:
-                flash('Неверный формат номера телефона', 'danger')
+                #flash('Неверный формат номера телефона', 'danger')
                 return redirect(url_for('index'))
             
             if not order_text:
-                flash('Поле заказа не может быть пустым', 'danger')
+                #flash('Поле заказа не может быть пустым', 'danger')
                 return redirect(url_for('index'))
             
             # Создание заказа
@@ -124,14 +124,14 @@ def index():
             db.session.add(new_order)
             db.session.commit()
             
-            flash('✅ Заказ оформлен успешно! Мы свяжемся с вами в ближайшее время.', 'success')
+            #flash('✅ Заказ оформлен успешно! Мы свяжемся с вами в ближайшее время.', 'success')
             app.logger.info(f'Новый заказ #{new_order.id} от {name}')
             return redirect(url_for('index'))
             
         except Exception as e:
             db.session.rollback()
             app.logger.error(f'Ошибка при создании заказа: {e}')
-            flash('❌ Ошибка при добавлении заказа. Попробуйте позже.', 'danger')
+            #flash('❌ Ошибка при добавлении заказа. Попробуйте позже.', 'danger')
             return redirect(url_for('index'))
     
     # Отображение страницы
@@ -148,20 +148,20 @@ def order_delete(id):
     is_admin = session.get('is_admin', False)
     if not is_admin:
         app.logger.warning(f'Попытка удаления заказа #{id} без прав администратора')
-        flash('Доступ запрещен!', 'danger')
+        #flash('Доступ запрещен!', 'danger')
         return redirect(url_for('index')), 403
     
     order = Order.query.get_or_404(id)
     try:
         db.session.delete(order)
         db.session.commit()
-        flash(f'Заказ #{id} успешно удален', 'success')
+        #flash(f'Заказ #{id} успешно удален', 'success')
         app.logger.info(f'Заказ #{id} удален администратором')
         return redirect(url_for('index'))
     except Exception as e:
         db.session.rollback()
         app.logger.error(f'Ошибка при удалении заказа #{id}: {e}')
-        flash('Ошибка при удалении заказа', 'danger')
+        #flash('Ошибка при удалении заказа', 'danger')
         return redirect(url_for('index')), 500
 
 # 8. Вход/выход администратора
@@ -173,11 +173,11 @@ def admin_login():
             session['is_admin'] = True
             session.permanent = True
             app.logger.info('Администратор вошел в систему')
-            flash('Добро пожаловать, администратор!', 'success')
+            #flash('Добро пожаловать, администратор!', 'success')
             return redirect(url_for('index'))
         else:
             app.logger.warning(f'Неудачная попытка входа с паролем: {password[:3]}***')
-            flash('Неверный пароль!', 'danger')
+            #flash('Неверный пароль!', 'danger')
             return redirect(url_for('admin_login'))
     return render_template("admin_login.html")
 
@@ -185,7 +185,7 @@ def admin_login():
 def admin_logout():
     session.pop('is_admin', None)
     app.logger.info('Администратор вышел из системы')
-    flash('Вы вышли из системы', 'info')
+    #flash('Вы вышли из системы', 'info')
     return redirect(url_for('index'))
 
 # 9. Другие страницы
