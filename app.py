@@ -215,15 +215,13 @@ def health():
         return {'status': 'error', 'database': 'disconnected'}, 503
 
 
-@app.route("/init-db")
-def init_db():
+@app.route("/check-db")
+def check_db():
     with app.app_context():
-        # Удаляем все таблицы (осторожно - удаляет данные!)
-        db.drop_all()
-        # Создаем новые таблицы
-        db.create_all()
-        app.logger.info("Таблицы базы данных пересозданы")
-    return "✅ Таблицы созданы! Удалите этот маршрут после проверки."
+        # Проверка имени таблицы
+        result = db.session.execute("SELECT * FROM information_schema.tables WHERE table_name = 'orders';")
+        tables = result.fetchall()
+        return f"Таблица 'orders' существует: {len(tables) > 0}"
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
